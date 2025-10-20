@@ -1,0 +1,59 @@
+﻿@model Cinema
+@{
+	Layout = "_AdminLayout";
+	ViewData["Title"] = "Create";
+}
+
+<div class="container mt-5">
+	<div class="card shadow-lg p-4 rounded-4">
+		<h3 class="mb-4 text-center fw-bold text-primary">🎬 Add New Cinema</h3>
+
+		<form asp-action="Create" method="post" enctype="multipart/form-data">
+			<div class="row g-3">
+				<!-- Name -->
+				<div class="col-md-6">
+					<label asp-for="Name" class="form-label fw-semibold">Actor Name</label>
+					<input asp-for="Name" class="form-control" placeholder="Enter Actor name" required />
+					<span asp-validation-for="Name" class="text-danger"></span>
+				</div>
+
+				<!-- Main Image -->
+				<div class="col-md-4">
+					<label class="form-label fw-semibold" asp-for="Img">profile Image</label>
+					<input type="file" name="Image" class="form-control" required />
+				</div>
+
+				<!-- Status -->
+				<div class="col-md-4">
+					<label asp-for="Status" class="form-label fw-semibold"></label>
+					<select asp-for="Status" class="form-select">
+						<option value="">Select a Status</option>
+						<option value="true">Active</option>
+						<option value="false">NoActive</option>
+					</select>
+				</div>
+
+				<!-- Phone -->
+				<div class="col-md-4">
+					<label asp-for="Phone" class="form-label fw-semibold">Phone Number</label>
+					<input asp-for="Phone" class="form-control" placeholder="854-658-2136" required />
+				</div>
+
+				<!-- Address -->
+				<div class="col-md-4">
+					<label asp-for="Address" class="form-label fw-semibold"></label>
+					<input asp-for="Address" class="form-control" required />
+				</div>
+			</div>
+
+			<!-- Submit Button -->
+			<div class="mt-4 text-center">
+				<button type="submit" class="btn btn-primary px-5 py-2 rounded-3">Create</button>
+				<a asp-action="Index" class="btn btn-secondary ms-3 px-4 py-2 rounded-3">Cancel</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
