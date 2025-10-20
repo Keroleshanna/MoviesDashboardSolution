@@ -16,6 +16,7 @@ namespace MoviesDashboard.Areas.Admin.Controllers
         {
             _context = context;
         }
+
         public IActionResult Index(int currentNumber = 1)
         {
             var movies = _context.Movies.AsNoTracking();
