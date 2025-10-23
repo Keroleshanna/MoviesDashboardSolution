@@ -89,8 +89,8 @@ namespace MoviesDashboard.Areas.Admin.Controllers
             _context.Movies.Add(movie);
             _context.SaveChanges();
 
-            // Response.Cookies.Append("Cookies-succuss", "Done You Add new Movie 👌"); // دي مشكلتها انها مش بتختفي غير لما تعملها اعدادات معينه في البارامتر التاليت
-            TempData["Cookies-succuss"] = "Done You Add new Movie";
+            // Response.Cookies.Append("Cookies-succuss", "Done You Add new Movie 👌");  دي مشكلتها انها مش بتختفي غير لما تعملها اعدادات معينه في البارامتر التاليت
+            TempData["Cookies-succuss"] = "Done You Added new Movie";
 
             // رفع الصور الفرعية (لو فيه)
             if (vm.SubImages != null && vm.SubImages.Count > 0)
