@@ -12,6 +12,12 @@
 		<i class="bi bi-plus-lg"></i> Create New
 	</a>
 </div>
+        
+<div class="row">
+	<div class="display-3">
+		@TempData["Cookies-succuss"]
+	</div>
+</div>
 
 <div class="card shadow-sm border-0 rounded-3 container">
 	<div class="card-body">
@@ -54,8 +60,9 @@
 										<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
 											<i class="bi bi-pencil-square"></i> Edit
 										</a>
+
 										<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
-											<i class="bi bi-trash"></i> Delete
+											<i class="bi bi-pencil-square"></i> Delete
 										</a>
 									</div>
 								</td>

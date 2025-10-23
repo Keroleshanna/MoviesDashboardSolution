@@ -1,5 +1,5 @@
-﻿using MoviesDashboard.Models.Common;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using MoviesDashboard.Models.Common;
 
 namespace MoviesDashboard.Models
 {
@@ -13,15 +13,13 @@ namespace MoviesDashboard.Models
         public TimeOnly? Time { get; set; }
         public string? MainImg { get; set; }
 
-
+        public int? CategoryId { get; set; }
+        public Category Category { get; set; }
+        
+        public int? CinemaId { get; set; }
+        public Cinema Cinema { get; set; }
 
         public ICollection<MovieImage> SubImages { get; set; }
         public ICollection<MovieActor> MovieActors { get; set; }
-
-        public int? CategoryId { get; set; }
-        public Category Category { get; set; }
-
-        public int? CinemaId { get; set; }
-        public Cinema Cinema { get; set; }
     }
 }

@@ -1,99 +1,95 @@
-﻿@model MovieVM
+﻿@model MoviesDashboard.ViewModels.EditMovieVM
+
 @{
-    Layout = "_AdminLayout";
+    ViewData["Title"] = "Edit Movie";
 }
 
-<div class="container mt-5">
-	<div class="card shadow-lg p-4 rounded-4">
-		<h3 class="mb-4 text-center fw-bold text-primary">🎬 Edit This Movie</h3>
+<h3>Edit Movie</h3>
 
-		<form asp-action="Edit" method="post" enctype="multipart/form-data">
-			<div class="row g-3">
-				<!-- Movie ID -->
-				<div >
-					<input asp-for="Movie.Id" hidden/>
-					<input asp-for="Movie.CreatedBy" hidden/>
-					<input asp-for="Movie.LastModifiedBy" hidden/>
-					<input asp-for="Movie.CreatedOn" hidden/>
-					<input asp-for="Movie.LastModifiedOn" hidden/>
-				</div>
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
 
-				<!-- Movie Name -->
-				<div class="col-md-6">
-					<label asp-for="Movie.Name" class="form-label fw-semibold">Movie Name</label>
-					<input asp-for="Movie.Name" class="form-control" placeholder="Enter movie name" required />
-					<span asp-validation-for="Movie.Name" class="text-danger"></span>
-				</div>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label">Movie Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-				<!-- Description -->
-				<div class="col-md-6">
-					<label asp-for="Movie.Descrption" class="form-label fw-semibold">Description</label>
-					<textarea asp-for="Movie.Descrption" class="form-control" placeholder="Short movie description"></textarea>
-				</div>
+        <div class="col-md-6">
+            <label asp-for="Price" class="form-label">Price</label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
 
-				<!-- Price -->
-				<div class="col-md-4">
-					<label asp-for="Movie.Price" class="form-label fw-semibold">Ticket Price</label>
-					<input asp-for="Movie.Price" class="form-control" placeholder="e.g. 12.5" required />
-				</div>
+        <div class="col-md-4">
+            <label asp-for="CategoryId" class="form-label">Category</label>
+            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                <option value="">-- Select --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
 
-				<!-- Status -->
-				<div class="col-md-4">
-					<label asp-for="Movie.Status" class="form-label fw-semibold"></label>
-					<select asp-for="Movie.Status" class="form-select">
-						<option value="true">Active</option>
-						<option value="false">Inactive</option>
-					</select>
-				</div>
+        <div class="col-md-4">
+            <label asp-for="CinemaId" class="form-label">Cinema</label>
+            <select asp-for="CinemaId" asp-items="Model.Cinemas" class="form-select">
+                <option value="">-- Select --</option>
+            </select>
+            <span asp-validation-for="CinemaId" class="text-danger"></span>
+        </div>
 
-				<!-- Date -->
-				<div class="col-md-4">
-					<label asp-for="Movie.Date" class="form-label fw-semibold"></label>
-					<input asp-for="Movie.Date" type="date" class="form-control" required />
-				</div>
+        <div class="col-md-4">
+            <label class="form-label">Current Main Image</label>
+            @if (!string.IsNullOrEmpty(Model.MainImg))
+            {
+                <div>
+                    <img src="~/images/movies/@Model.MainImg" alt="@Model.Name" width="150" class="img-thumbnail" />
+                </div>
+            }
+            <label asp-for="MainImageFile" class="form-label mt-2">Replace Main Image</label>
+            <input asp-for="MainImageFile" type="file" class="form-control" />
+            <span asp-validation-for="MainImageFile" class="text-danger"></span>
+        </div>
 
-				<!-- Time -->
-				<div class="col-md-4">
-					<label asp-for="Movie.Time" class="form-label fw-semibold"></label>
-					<input asp-for="Movie.Time" type="time" class="form-control" required />
-				</div>
+        <div class="col-12">
+            <label class="form-label">Current Sub Images</label>
+            <div class="d-flex flex-wrap gap-3">
+                @if (Model.SubImages != null && Model.SubImages.Any())
+                {
+                    foreach (var si in Model.SubImages)
+                    {
+                        <div class="position-relative" style="width:120px">
+                            <img src="~/images/movies/@si.ImageUrl" class="img-thumbnail" style="width:120px; height:120px; object-fit:cover" />
+                            <a asp-action="DeleteImage"
+                               asp-route-movieId="@Model.Id"
+                               asp-route-imageUrl="@si.ImageUrl"
+                               class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                               title="Delete">
+                                ×
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div>No sub images.</div>
+                }
+            </div>
+        </div>
 
-				<!-- Main Image -->
-				<div class="col-md-4">
-					<label class="form-label fw-semibold" asp-for="Movie.MainImg">profile Image</label>
-					<input asp-for="Movie.MainImg" type="file" name="mainImage" class="form-control" />
-					<img src="~/Images/movies/@Model?.Movie?.MainImg" alt="Movie Image" style="width:100px; height:100px; object-fit:cover;" />
-				</div>
+        <div class="col-12">
+            <label class="form-label">Add New Sub Images</label>
+            <input asp-for="NewSubImages" type="file" multiple class="form-control" name="NewSubImages" />
+            <small class="text-muted">You can upload multiple images. Existing images won't be removed unless you delete them.</small>
+        </div>
+    </div>
 
-				<!-- Category -->
-				<div class="col-md-4">
-					<label asp-for="Movie.CategoryId" class="form-label fw-semibold">Category</label>
-					<select asp-for="Movie.CategoryId" class="form-select" asp-items="Model?.Categories" required>
-						<option value="">-- Select Category --</option>
-					</select>
-				</div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    </div>
+</form>
 
-				<!-- Cinema -->
-				<div class="col-md-4">
-					<label asp-for="Movie.CinemaId" class="form-label fw-semibold">Cinema</label>
-					<select asp-for="Movie.CinemaId" class="form-select" asp-items="Model.Cinemas" required>
-						<option value="">-- Select Cinema --</option>
-					</select>
-				</div>
-
-				<!-- Sub Images In MovieImages Table -->
-				<div class="col-12">
-					<label class="form-label fw-semibold">Sub Images</label>
-					<input type="file" name="file" multiple class="form-control" />
-				</div>
-			</div>
-
-			<!-- Submit Button -->
-			<div class="mt-4 text-center">
-				<button type="submit" class="btn btn-primary px-5 py-2 rounded-3">Create Movie</button>
-				<a asp-action="Index" class="btn btn-secondary ms-3 px-4 py-2 rounded-3">Cancel</a>
-			</div>
-		</form>
-	</div>
-</div>
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
